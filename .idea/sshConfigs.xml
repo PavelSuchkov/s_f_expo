@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig host="localhost" id="d78e3ac8-fee3-44cb-9273-85946d57acb0" keyPath="$PROJECT_DIR$/../../../ssh/self-posts/key.txt" port="22" nameFormat="DESCRIPTIVE" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>
