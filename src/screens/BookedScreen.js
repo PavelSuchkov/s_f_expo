@@ -1,10 +1,11 @@
 import React from 'react'
-import {Button, Text, View, FlatList} from 'react-native'
+import {View} from 'react-native'
 import styled from 'styled-components'
 import {DATA} from '../data'
 import {Post} from '../components/Post'
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {AppHeaderIcon} from '../components/AppHeaderIcon';
+import {PostList} from '../components/PostList';
 
 export const BookedScreen = ({navigation}) => {
 
@@ -13,29 +14,24 @@ export const BookedScreen = ({navigation}) => {
             {postID: post.id, date: post.date, img: post.img, booked: post.booked})
     }
 
+    const filteredData = DATA.filter(p => p.booked)
+
     return (
-        <Wrapper>
-            <FlatList data={DATA.filter(p => p.booked)}
-                      keyExtractor={post => post.id.toString()}
-                      renderItem={({item}) => <Post post={item}
-                                                    onOpen={openPostHandler}/>}
-            />
-
-
-        </Wrapper>
+        <PostList onOpen={openPostHandler} data={filteredData} />
     )
 }
 
-BookedScreen.navigationOptions = {
+BookedScreen.navigationOptions = ({navigation}) => ({
     headerTitle: 'Booked',
 
     headerLeft: <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
         <Item
             title="Toggle drawer"
             iconName="ios-menu"
-            onPress={() => console.log('pressed')}/>
+            onPress={() => navigation.openDrawer()}
+            onBlur={() => navigation.closeDrawer()}/>
     </HeaderButtons>
-}
+})
 
 
 const Wrapper = styled(View)`

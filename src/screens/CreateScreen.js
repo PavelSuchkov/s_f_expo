@@ -1,6 +1,8 @@
-import React from "react";
-import {Text, View } from "react-native";
+import React from 'react';
+import {Text, View} from 'react-native';
 import styled from 'styled-components'
+import {HeaderButtons, Item} from 'react-navigation-header-buttons';
+import {AppHeaderIcon} from '../components/AppHeaderIcon';
 
 export const CreateScreen = () => {
   return (
@@ -11,6 +13,17 @@ export const CreateScreen = () => {
     </Container>
   )
 }
+
+CreateScreen.navigationOptions = ({navigation}) => ({
+    headerTitle: 'Create new post',
+    headerLeft: <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
+        <Item
+            title="Toggle drawer"
+            iconName="ios-menu"
+            onPress={() => navigation.toggleDrawer()}
+            onBlur={() => navigation.closeDrawer()} />
+    </HeaderButtons>
+})
 
 const Container = styled(View)`
   flex: 1;

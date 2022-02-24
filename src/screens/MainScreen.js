@@ -1,10 +1,9 @@
 import React from 'react'
-import {Button, Text, View, FlatList} from 'react-native'
-import styled from 'styled-components'
 import {DATA} from '../data'
 import {Post} from '../components/Post'
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {AppHeaderIcon} from '../components/AppHeaderIcon';
+import {PostList} from '../components/PostList';
 
 export const MainScreen = ({navigation}) => {
 
@@ -14,36 +13,25 @@ export const MainScreen = ({navigation}) => {
     }
 
     return (
-        <Wrapper>
-            <FlatList data={DATA}
-                      keyExtractor={post => post.id.toString()}
-                      renderItem={({item}) => <Post post={item}
-                                                    onOpen={openPostHandler}/>}
-            />
-
-
-        </Wrapper>
+        <PostList onOpen={openPostHandler} data={DATA}/>
     )
 }
 
-MainScreen.navigationOptions = {
+MainScreen.navigationOptions = ({navigation}) => ({
     headerTitle: 'My blog',
     headerRight: <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
         <Item
             title="Take photo"
             iconName="ios-camera"
-            onPress={() => console.log('pressed')}/>
+            onPress={() => navigation.push('Create') }/>
     </HeaderButtons>,
     headerLeft: <HeaderButtons HeaderButtonComponent={AppHeaderIcon}>
         <Item
             title="Toggle drawer"
             iconName="ios-menu"
-            onPress={() => console.log('pressed')}/>
+            onPress={() => navigation.openDrawer()}
+            onBlur={() => navigation.closeDrawer()} />
     </HeaderButtons>
-}
+})
 
-
-const Wrapper = styled(View)`
-  padding: 3px;
-`
 

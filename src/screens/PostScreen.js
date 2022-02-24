@@ -12,10 +12,6 @@ export const PostScreen = ({navigation}) => {
     const postID = navigation.getParam('postID')
     const post = DATA.find(p => p.id === postID)
 
-    // useEffect(() => {
-    //     navigation.setParams({booked: post.booked })
-    // }, [])
-
     const removeHandler = () => {
         Alert.alert(
             'Deleting',
@@ -34,8 +30,6 @@ export const PostScreen = ({navigation}) => {
             ]
         );
     }
-
-
     return (
         <Container>
             <PostImage source={{uri: post.img}}/>
