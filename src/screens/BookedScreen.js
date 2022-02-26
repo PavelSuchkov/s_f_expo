@@ -1,11 +1,12 @@
 import React from 'react'
 import {View} from 'react-native'
 import styled from 'styled-components'
-import {DATA} from '../data'
+// import {DATA} from '../data'
 import {Post} from '../components/Post'
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {AppHeaderIcon} from '../components/AppHeaderIcon';
 import {PostList} from '../components/PostList';
+import {useSelector} from 'react-redux';
 
 export const BookedScreen = ({navigation}) => {
 
@@ -14,10 +15,10 @@ export const BookedScreen = ({navigation}) => {
             {postID: post.id, date: post.date, img: post.img, booked: post.booked})
     }
 
-    const filteredData = DATA.filter(p => p.booked)
+    const bookedPosts = useSelector(state => state.post.bookedPosts)
 
     return (
-        <PostList onOpen={openPostHandler} data={filteredData} />
+        <PostList onOpen={openPostHandler} data={bookedPosts} />
     )
 }
 
