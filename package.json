@@ -29,7 +29,9 @@
     "react-navigation-tabs": "^2.5.6",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2",
-    "styled-components": "^5.3.3"
+    "styled-components": "^5.3.3",
+    "expo-image-picker": "~12.0.1",
+    "expo-permissions": "~13.1.0"
   },
   "devDependencies": {
     "babel-preset-expo": "9.0.2"
