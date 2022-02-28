@@ -26,7 +26,6 @@ export const MainScreen = ({navigation}) => {
         navigation.navigate('Post',
             {postID: post.id, date: post.date, img: post.img, booked: post.booked})
     }
-
     if (loading) {
         return (
             <Loading>
