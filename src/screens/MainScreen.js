@@ -7,6 +7,9 @@ import {PostList} from '../components/PostList';
 import {useDispatch, useSelector} from 'react-redux';
 import {loadPosts} from '../store/actions/postActions';
 import {store} from '../store';
+import styled from 'styled-components';
+import {ActivityIndicator, View} from 'react-native';
+import {THEME} from '../theme';
 
 export const MainScreen = ({navigation}) => {
 
@@ -17,10 +20,19 @@ export const MainScreen = ({navigation}) => {
     }, [dispatch])
 
     const allPosts = useSelector(state => state.post.allPosts)
+    const loading = useSelector(state => state.post.loading)
 
     const openPostHandler = (post) => {
         navigation.navigate('Post',
             {postID: post.id, date: post.date, img: post.img, booked: post.booked})
+    }
+
+    if (loading) {
+        return (
+            <Loading>
+                <ActivityIndicator color={THEME.MAIN_COLOR}/>
+            </Loading>
+        )
     }
 
     return (
@@ -46,4 +58,9 @@ MainScreen.navigationOptions = ({navigation}) => ({
     </HeaderButtons>
 })
 
+const Loading = styled(View)`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+`
 

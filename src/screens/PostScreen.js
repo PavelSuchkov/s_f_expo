@@ -22,8 +22,8 @@ export const PostScreen = ({navigation}) => {
         .some(post => post.id === postID))
 
     const toggleHandler = useCallback(() => {
-        dispatch(toggleBooked(postID))
-    }, [dispatch, postID])
+        dispatch(toggleBooked(post))
+    }, [dispatch, post])
 
     useEffect(() => {
         navigation.setParams({booked})

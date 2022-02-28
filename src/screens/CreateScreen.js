@@ -89,5 +89,4 @@ const ImageWrapper = styled(Image)`
   width: 100%;
   height: 200px;
   margin-bottom: 10px;
-  border: 1px grey;
 `
