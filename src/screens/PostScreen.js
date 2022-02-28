@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, {useCallback, useEffect} from 'react'
 import {Text, View, Image, Button, ScrollView, Alert} from 'react-native'
 import styled from 'styled-components'
 import {MainScreen} from './MainScreen'
@@ -6,15 +6,32 @@ import {DATA} from '../data'
 import {THEME} from '../theme'
 import {HeaderButtons, Item} from 'react-navigation-header-buttons';
 import {AppHeaderIcon} from '../components/AppHeaderIcon';
+import {useDispatch, useSelector} from 'react-redux';
+import {removePost, toggleBooked} from '../store/actions/postActions';
 
 export const PostScreen = ({navigation}) => {
 
-    const postID = navigation.getParam('postID')
-    const post = DATA.find(p => p.id === postID)
+    const dispatch = useDispatch()
 
-    // useEffect(() => {
-    //     navigation.setParams({booked: post.booked })
-    // }, [])
+    const postID = navigation.getParam('postID')
+
+    const post = useSelector(
+        state => state.post.allPosts.find(p => p.id === postID))
+
+    const booked = useSelector(state => state.post.bookedPosts
+        .some(post => post.id === postID))
+
+    const toggleHandler = useCallback(() => {
+        dispatch(toggleBooked(post))
+    }, [dispatch, post])
+
+    useEffect(() => {
+        navigation.setParams({booked})
+    }, [booked])
+
+    useEffect(() => {
+        navigation.setParams({toggleHandler})
+    }, [toggleHandler])
 
     const removeHandler = () => {
         Alert.alert(
@@ -23,18 +40,25 @@ export const PostScreen = ({navigation}) => {
             [
                 {
                     text: 'Cancel',
-                    onPress: () => console.log('Cancel Pressed'),
                     style: 'cancel'
                 },
                 {
                     text: 'Delete',
                     style: 'destructive',
-                    onPress: () => console.log('OK Pressed')
+                    onPress() {
+                        navigation.navigate('Main')
+                        dispatch(removePost(postID))
+                    }
+
                 }
             ]
         );
     }
 
+
+    if(!post) {
+        return null
+    }
 
     return (
         <Container>
@@ -50,6 +74,7 @@ export const PostScreen = ({navigation}) => {
 PostScreen.navigationOptions = ({navigation}) => {
     const date = navigation.getParam('date')
     const booked = navigation.getParam('booked')
+    const toggleHandler = navigation.getParam('toggleHandler')
     const iconName = booked ? 'ios-star' : 'ios-star-outline'
     return {
         headerTitle: 'Posted ' + new Date(date).toLocaleDateString(),
@@ -57,10 +82,9 @@ PostScreen.navigationOptions = ({navigation}) => {
             <Item
                 title="Take photo"
                 iconName={iconName}
-                onPress={() => console.log(booked)}/>
+                onPress={toggleHandler}/>
         </HeaderButtons>,
     }
-
 }
 
 const Container = styled(ScrollView)`
